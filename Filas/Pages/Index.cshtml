@@ -1,0 +1,87 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="text-center">
+    <h2>Total de mesas em espera para</h2>
+    <div class="container-painel">
+        @foreach (var i in Model.ReservaList.Where(e => e.ENTROU == false).OrderBy(y => y.QTD_PESSOAS).GroupBy(x => x.ID_MESA))
+        {
+            <div class="itens-painel">
+                <text class="numero-pessoas">
+                     @foreach (var item in ViewBag.ListItemsMesa)
+                    {
+                        if (item.Value == i.Key.ToString())
+                            @item.Text
+                    }
+                </text> <br />
+                <text class="numero-mesas">@i.Count()</text>
+            </div>
+        }
+    </div>
+
+    <form method="post">
+        <div class="container-formulario">
+            <div class="input-group mb-3" style="width: auto">
+                <input name="NOME_RESERVA" class="form-control"
+                       type="text"
+                       id="nome-reserva"
+                       value=""
+                       placeholder="Nome e sobrenome" />
+                <input name="QTD_PESSOAS" class="form-control"
+                       type="text"
+                       id="quantidade-reserva" value=""
+                       placeholder="Quant." />
+            </div>
+            <div>
+                <button class="btn btn-success" id="btn-div" type="submit">Adicionar<img style="margin-left: 8px" src="~/lib/bootstrap/dist/icons/plus-lg.svg" /></button>
+            </div>
+        </div>
+
+    </form>
+    <div class="input-group mb-3 campo-pesquisa">
+        <input class="form-control" type="text" placeholder="Buscar nome" />
+        <div><igm src="~/lib/bootstrap/dist/icons/search.svg" /></div>
+    </div>
+    <div>
+
+        <table class="tabela-reservas table table-sm">
+            <thead class="bg-black" style="color: white">
+                <tr>
+                    <th style="width: 80px">Horário</th>
+                    <th style="width:200px">Nome</th>
+                    <th style="width: 30px">Qtd.</th>
+                    <th style="width: 80px">Concluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.ReservaList.OrderBy(x => x.QTD_PESSOAS).ThenBy(y => y.HORA_RESERVA))
+                {
+                    <tr>
+                        <td>
+                            @i.HORA_RESERVA.ToString("HH:mm:ss")
+                        </td>
+                        <td>
+                            @i.NOME_RESERVA
+                        </td>
+                        <td>
+                            @i.QTD_PESSOAS
+                        </td>
+                        <td>
+                            <form method="post">
+                                <button name="ID_RESERVA" asp-page-handler="Entrar" value="@i.ID_RESERVA" type="submit"></button>
+                            </form>
+                        </td>
+                        @*  <td style="display: flex; justify-content: space-around; height: 41px; align-items: center">
+                    1º
+                    <img src="lib/bootstrap/dist/icons/check-circle.svg" width="16" height="16" style="cursor: pointer">
+                    </td>*@
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

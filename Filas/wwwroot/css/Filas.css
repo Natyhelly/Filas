@@ -1,0 +1,87 @@
+﻿body {
+    font-family: Calibri;
+}
+
+h2 {
+    text-align: center;
+}
+
+.container-painel {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.itens-painel {
+    text-align: center;
+    border: 1px solid black;
+    background-color: black;
+    border-radius: 20%;
+    width: 80px;
+    height: 80px;
+    /*display: none;*/
+}
+
+.numero-pessoas {
+    font-size: 20px;
+    color: white;
+}
+
+.numero-mesas {
+    color: white;
+    font-size: 35px;
+}
+
+.container-formulario {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 10px;
+}
+
+/*.inputs {
+    height: 28px;
+    color: black;
+    font-size: 15px;
+    padding-left: 10px;
+}*/
+
+#nome-reserva {
+    width: 400px;
+}
+
+#quantidade-reserva {
+    width: 80px;
+    margin-left: 10px;
+}
+
+#adicionar-reserva {
+    width: 30px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.campo-pesquisa {
+    width: 500px;
+}
+
+.tabela-reservas {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/*#horario-reserva {
+    width: 65px;
+}
+
+#nome-table {
+    width: 240px;
+}
+
+#pessoas-table {
+    width: 40px;
+}
+
+#posicao-table {
+    width: 70px;
+}*/
