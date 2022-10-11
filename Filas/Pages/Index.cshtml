@@ -11,7 +11,7 @@
         {
             <div class="itens-painel">
                 <text class="numero-pessoas">
-                     @foreach (var item in ViewBag.ListItemsMesa)
+                    @foreach (var item in ViewBag.ListItemsMesa)
                     {
                         if (item.Value == i.Key.ToString())
                             @item.Text
@@ -23,37 +23,41 @@
     </div>
 
     <form method="post">
-        <div class="container-formulario">
-            <div class="input-group mb-3" style="width: auto">
-                <input name="NOME_RESERVA" class="form-control"
-                       type="text"
-                       id="nome-reserva"
-                       value=""
-                       placeholder="Nome e sobrenome" />
-                <input name="QTD_PESSOAS" class="form-control"
-                       type="text"
-                       id="quantidade-reserva" value=""
-                       placeholder="Quant." />
+        <div class="form-group container-formulario">
+            <div class="" style="width: 350px">
+                <input name="NOME_RESERVA" class="form-control" type="text" value="" placeholder="Nome e sobrenome da reserva" />
             </div>
-            <div>
-                <button class="btn btn-success" id="btn-div" type="submit">Adicionar<img style="margin-left: 8px" src="~/lib/bootstrap/dist/icons/plus-lg.svg" /></button>
+            <div class="" style="width: 180px">
+                <input name="QTD_PESSOAS" class="form-control" type="text" value="" placeholder="Para quantas pessoas?" />
+            </div>
+            <div class="">
+                <button class="btn btn-outline-success" type="submit"><b>Adicionar à fila</b></button>
             </div>
         </div>
-
     </form>
-    <div class="input-group mb-3 campo-pesquisa">
-        <input class="form-control" type="text" placeholder="Buscar nome" />
-        <div><igm src="~/lib/bootstrap/dist/icons/search.svg" /></div>
-    </div>
-    <div>
 
-        <table class="tabela-reservas table table-sm">
+    <div class="input-group campo-pesquisa mb-3">
+        <div style="width: 300px">
+        <input class="form-control" type="text" placeholder="Pesquisar reserva" />
+        </div>
+        <div class="input-group-append">
+            <span class="input-group-text">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="23" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+</svg>
+            </span>
+        </div>
+        
+    </div>
+    <div class="container-tabela">
+    <div style="width: 678px">
+        <table class="table table-bordered">
             <thead class="bg-black" style="color: white">
                 <tr>
-                    <th style="width: 80px">Horário</th>
-                    <th style="width:200px">Nome</th>
-                    <th style="width: 30px">Qtd.</th>
-                    <th style="width: 80px">Concluir</th>
+                    <th style="min-width: 85px">Horário</th>
+                    <th style="width: 100%" class="col-nome">Nome da Reserva</th>
+                    <th style="min-width: 80px">Quant.</th>
+                    <th style="min-width: 150px">Concluir/Cancelar</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,7 +67,7 @@
                         <td>
                             @i.HORA_RESERVA.ToString("HH:mm:ss")
                         </td>
-                        <td>
+                        <td class="col-nome">
                             @i.NOME_RESERVA
                         </td>
                         <td>
@@ -71,17 +75,15 @@
                         </td>
                         <td>
                             <form method="post">
-                                <button name="ID_RESERVA" asp-page-handler="Entrar" value="@i.ID_RESERVA" type="submit"></button>
+                                <button name="ID_RESERVA" asp-page-handler="Entrar" value="@i.ID_RESERVA" type="submit" class="botao-concluir">
+                                    <img src="lib/bootstrap/dist/icons/check-circle.svg" class="img-concluir">
+                                </button>
                             </form>
                         </td>
-                        @*  <td style="display: flex; justify-content: space-around; height: 41px; align-items: center">
-                    1º
-                    <img src="lib/bootstrap/dist/icons/check-circle.svg" width="16" height="16" style="cursor: pointer">
-                    </td>*@
                     </tr>
                 }
-
             </tbody>
         </table>
+    </div>
     </div>
 </div>
