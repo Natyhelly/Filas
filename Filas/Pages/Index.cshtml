@@ -2,6 +2,8 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Início";
+    var contadorPosicao = 1;
+    var comparadorQtdPessoas = 0;
 }
 
 <div class="text-center">
@@ -24,66 +26,111 @@
 
     <form method="post">
         <div class="form-group container-formulario">
-            <div class="" style="width: 350px">
+            <div style="width: 350px">
                 <input name="NOME_RESERVA" class="form-control" type="text" value="" placeholder="Nome e sobrenome da reserva" />
             </div>
-            <div class="" style="width: 180px">
+            <div style="width: 180px">
                 <input name="QTD_PESSOAS" class="form-control" type="text" value="" placeholder="Para quantas pessoas?" />
             </div>
-            <div class="">
+            <div>
                 <button class="btn btn-outline-success" type="submit"><b>Adicionar à fila</b></button>
             </div>
         </div>
     </form>
 
     <div class="input-group campo-pesquisa mb-3">
-        <div style="width: 300px">
-        <input class="form-control" type="text" placeholder="Pesquisar reserva" />
+        <div style="width: 270px">
+            <input name="filtro" id="campoPesquisa" class="form-control" type="text" placeholder="Buscar" />
         </div>
-        <div class="input-group-append">
+        <div class="input-group-append" style="z-index: -1">
             <span class="input-group-text">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="23" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-</svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
             </span>
         </div>
-        
     </div>
+
     <div class="container-tabela">
-    <div style="width: 678px">
-        <table class="table table-bordered">
-            <thead class="bg-black" style="color: white">
-                <tr>
-                    <th style="min-width: 85px">Horário</th>
-                    <th style="width: 100%" class="col-nome">Nome da Reserva</th>
-                    <th style="min-width: 80px">Quant.</th>
-                    <th style="min-width: 150px">Concluir/Cancelar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var i in Model.ReservaList.OrderBy(x => x.QTD_PESSOAS).ThenBy(y => y.HORA_RESERVA))
-                {
+        <div style="width: 678px">
+            <table class="table table-bordered">
+                <thead class="bg-black" style="color: white">
                     <tr>
-                        <td>
-                            @i.HORA_RESERVA.ToString("HH:mm:ss")
-                        </td>
-                        <td class="col-nome">
-                            @i.NOME_RESERVA
-                        </td>
-                        <td>
-                            @i.QTD_PESSOAS
-                        </td>
-                        <td>
-                            <form method="post">
-                                <button name="ID_RESERVA" asp-page-handler="Entrar" value="@i.ID_RESERVA" type="submit" class="botao-concluir">
-                                    <img src="lib/bootstrap/dist/icons/check-circle.svg" class="img-concluir">
-                                </button>
-                            </form>
-                        </td>
+                        <th style="min-width: 85px">Horário</th>
+                        <th style="width: 100%" class="col-nome">Nome</th>
+                        <th style="min-width: 100px">Mesa para</th>
+                        <th style="min-width: 85px">Posição</th>
+                        <th style="min-width: 150px">Concluir/Cancelar</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="myTable">
+                    @foreach (var i in Model.ReservaList.OrderBy(x => x.QTD_PESSOAS).ThenBy(y => y.HORA_RESERVA))
+                    {
+                        @if (comparadorQtdPessoas != i.QTD_PESSOAS)
+                        {
+                            contadorPosicao = 1;
+                            comparadorQtdPessoas = i.QTD_PESSOAS;
+                        }
+                        <tr>
+                            <td>
+                                @i.HORA_RESERVA.ToString("HH:mm:ss")
+                            </td>
+                            <td class="col-nome filtro">
+                                @i.NOME_RESERVA
+                            </td>
+                            <td class="filtro">
+                                @i.QTD_PESSOAS
+                            </td>
+                            <td>
+                                @(contadorPosicao + "º")
+                            </td>
+                            <td>
+                                <form method="post">
+                                    <button name="ID_RESERVA" asp-page-handler="Entrar" value="@i.ID_RESERVA" type="submit" class="botao-concluir">
+                                        <img src="lib/bootstrap/dist/icons/check-circle.svg" class="img-concluir">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        contadorPosicao++;
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+@*
+<script>
+    $(document).ready(function() {
+        $("#campoPesquisa").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>*@
+<script>
+    $(document).ready(function() {
+        $("#campoPesquisa").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            var toggleTr = false;
+            $("#myTable tr").filter(function() {
+                var lenght = this.children.length;
+                for (let i = 0; i < lenght; i++) {
+                    var TD = this.children[i];
+
+                    if (TD.classList.contains("filtro"))
+                        toggleTr = $(TD).text().toLowerCase().indexOf(value) > -1;
+                    else
+                        toggleTr = false;
+
+                    $(this).toggle(toggleTr);
+
+                    if (toggleTr) 
+                        return;
+                }
+            });
+        });
+    });
+</script>
