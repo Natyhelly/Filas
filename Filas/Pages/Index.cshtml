@@ -99,38 +99,49 @@
         </div>
     </div>
 </div>
-@*
+
 <script>
     $(document).ready(function() {
         $("#campoPesquisa").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#myTable tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                var length = this.children.length;
+                for (let i = 0; i < length; i++) {
+                    var TD = this.children[i];
+
+                    if (TD.classList.contains("filtro")) {
+                        $(this).toggle($(TD).text().toLowerCase().indexOf(value) > -1);
+
+                        if ($(TD).text().toLowerCase().indexOf(value) > -1)
+                            return;
+                    }
+                }
             });
         });
     });
-</script>*@
-<script>
+</script>
+
+@*<script>
     $(document).ready(function() {
         $("#campoPesquisa").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            var toggleTr = false;
+            var habilitaTr = false;
             $("#myTable tr").filter(function() {
                 var lenght = this.children.length;
                 for (let i = 0; i < lenght; i++) {
                     var TD = this.children[i];
 
                     if (TD.classList.contains("filtro"))
-                        toggleTr = $(TD).text().toLowerCase().indexOf(value) > -1;
+                        habilitaTr = $(TD).text().toLowerCase().indexOf(value) > -1;
                     else
-                        toggleTr = false;
+                        habilitaTr = false;
 
-                    $(this).toggle(toggleTr);
+                    $(this).toggle(habilitaTr);
 
-                    if (toggleTr) 
+                    if (habilitaTr)
                         return;
                 }
             });
         });
     });
-</script>
+</script>*@
