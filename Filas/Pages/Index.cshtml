@@ -56,10 +56,10 @@
             <table class="table table-bordered">
                 <thead class="bg-black" style="color: white">
                     <tr>
-                        <th style="min-width: 85px">Horário</th>
+                        <th style="min-width: 85px">Posição</th>
                         <th style="width: 100%" class="col-nome">Nome</th>
                         <th style="min-width: 100px">Mesa para</th>
-                        <th style="min-width: 85px">Posição</th>
+                        <th style="min-width: 85px">Horário</th>
                         <th style="min-width: 150px">Concluir/Cancelar</th>
                     </tr>
                 </thead>
@@ -73,7 +73,7 @@
                         }
                         <tr>
                             <td>
-                                @i.HORA_RESERVA.ToString("HH:mm:ss")
+                                @(contadorPosicao + "º")
                             </td>
                             <td class="col-nome filtro">
                                 @i.NOME_RESERVA
@@ -82,7 +82,7 @@
                                 @i.QTD_PESSOAS
                             </td>
                             <td>
-                                @(contadorPosicao + "º")
+                                @i.HORA_RESERVA.ToString("HH:mm:ss")
                             </td>
                             <td>
                                 <form method="post">
